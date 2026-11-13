@@ -10,13 +10,16 @@
   h1, h2, h3 {
     @apply font-display uppercase tracking-tight;
   }
-  /* Storefront headings follow letswrassleapparel.com: bold Inter, normal case.
+  /* Storefront headings echo the logo: heavy block capitals.
      :where() keeps specificity low so utility classes still win. The admin hub is not inside .store. */
   :where(.store) h1, :where(.store) h2, :where(.store) h3 {
-    @apply font-sans font-bold normal-case tracking-tight;
+    @apply font-block font-extrabold uppercase leading-[0.95] tracking-tight;
   }
+  /* Two-tone focus ring so it shows on both the black and the white sections. */
   :where(.store) :focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-ink;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px #000;
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -25,21 +28,23 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-medium transition duration-200 disabled:cursor-not-allowed disabled:opacity-40;
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-7 py-4 text-sm font-bold uppercase tracking-[0.08em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-40;
   }
-  .btn-primary { @apply btn bg-ink text-white hover:bg-black; }
-  .btn-light { @apply btn bg-white text-ink hover:bg-fog; }
-  .btn-outline { @apply btn border border-ink/80 text-ink hover:bg-ink hover:text-white; }
-  .btn-sm { @apply px-4 py-2 text-sm; }
+  /* btn-primary is for white sections, btn-light for black ones. */
+  .btn-primary { @apply btn bg-black text-white hover:bg-ink; }
+  .btn-light { @apply btn bg-white text-black hover:bg-gray-200; }
+  .btn-outline { @apply btn border border-black text-black hover:bg-black hover:text-white; }
+  .btn-outline-light { @apply btn border border-white/60 text-white hover:border-white hover:bg-white hover:text-black; }
+  .btn-sm { @apply px-4 py-2.5 text-xs; }
   .input {
-    @apply w-full rounded-lg border border-gray-300 bg-white px-3.5 py-3 text-[15px] outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/15;
+    @apply w-full rounded-sm border border-gray-300 bg-white px-3.5 py-3 text-[15px] text-ink outline-none transition focus:border-black focus:ring-2 focus:ring-black/15;
   }
   .label { @apply mb-1.5 block text-sm font-medium text-gray-700; }
-  .card { @apply rounded-xl border border-gray-200 bg-white p-5 sm:p-6; }
-  .badge { @apply inline-block rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide; }
-  .eyebrow { @apply text-sm font-medium text-gray-500; }
-  .section { @apply mx-auto max-w-6xl px-5 py-16 md:py-24; }
-  .section-title { @apply text-3xl md:text-5xl; }
+  .card { @apply rounded-sm border border-gray-200 bg-white p-5 sm:p-6; }
+  .badge { @apply inline-block rounded-sm px-2 py-1 text-[11px] font-bold uppercase leading-none tracking-wider; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.2em]; }
+  .section { @apply mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24; }
+  .section-title { @apply text-4xl md:text-6xl; }
   .prose-store p + p { @apply mt-4; }
-  .skeleton { @apply animate-pulse rounded bg-fog; }
+  .skeleton { @apply animate-pulse rounded-sm bg-gray-500/20; }
 }

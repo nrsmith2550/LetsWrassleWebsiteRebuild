@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { LockIcon, ReturnIcon, TruckIcon } from '../components/Icons';
 import ProductCard from '../components/ProductCard';
 import ProductImage from '../components/ProductImage';
+import { Script } from '../components/Title';
 import { money } from '../lib/api';
 import { useCart } from '../lib/cart';
 import { useCatalog } from '../lib/catalog';
@@ -25,7 +26,7 @@ function parseDescription(text: string) {
 }
 
 const pill = (on: boolean, extra = '') =>
-  `rounded-full border px-4 py-2.5 text-sm font-medium transition ${on ? 'border-ink bg-ink text-white' : 'border-gray-300 bg-white hover:border-ink'} ${extra}`;
+  `rounded-sm border px-4 py-3 text-sm font-semibold transition ${on ? 'border-black bg-black text-white' : 'border-gray-300 bg-white hover:border-black'} ${extra}`;
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -65,10 +66,11 @@ export default function ProductPage() {
   if (!p) return <div className="px-5 py-24 text-center"><h1 className="text-3xl">Product not found</h1><p className="mt-2 text-gray-600">It may have sold out or been moved.</p><Link to="/shop" className="btn-primary mt-6">Back to shop</Link></div>;
 
   const inStock = !!variant?.inStock;
-  const related = catalog.products.filter((x) => x.active && x.slug !== p.slug && x.category === p.category).slice(0, 4);
+  const related = catalog.products.filter((x) => x.active && x.slug !== p.slug && x.category === p.category).slice(0, 3);
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-6 md:py-10">
+    <>
+    <div className="mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-10">
       <nav className="mb-5 flex flex-wrap items-center gap-2 text-sm text-gray-600" aria-label="Breadcrumb">
         <Link to="/shop" className="hover:text-ink hover:underline">Store</Link>
         {category && <><span aria-hidden>/</span><Link to={`/shop/${category.slug}`} className="hover:text-ink hover:underline">{category.name}</Link></>}
@@ -76,19 +78,19 @@ export default function ProductPage() {
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
         <div className="min-w-0 md:sticky md:top-36 md:self-start">
-          <div className="aspect-square overflow-hidden rounded-lg border border-gray-200 bg-white"><ProductImage src={p.images[img]} alt={p.name} label={color} /></div>
+          <div className="aspect-square overflow-hidden rounded-sm bg-mist"><ProductImage src={p.images[img]} alt={p.name} label={color} /></div>
           {p.images.length > 1 && (
             <div className="-mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-2">
               {p.images.map((u, i) => (
                 <button key={u + i} onClick={() => setImg(i)} aria-label={`Show photo ${i + 1}`} aria-current={i === img}
-                  className={`h-16 w-16 shrink-0 overflow-hidden rounded-md border-2 bg-white transition sm:h-20 sm:w-20 ${i === img ? 'border-ink' : 'border-transparent opacity-80 hover:opacity-100'}`}><ProductImage src={u} alt="" /></button>
+                  className={`h-16 w-16 shrink-0 overflow-hidden rounded-sm border-2 bg-white transition sm:h-20 sm:w-20 ${i === img ? 'border-black' : 'border-transparent opacity-80 hover:opacity-100'}`}><ProductImage src={u} alt="" /></button>
               ))}
             </div>
           )}
         </div>
 
         <div className="min-w-0">
-          <h1 className="text-3xl leading-tight md:text-4xl">{p.name}</h1>
+          <h1 className="text-4xl md:text-5xl">{p.name}</h1>
           <div className="mt-3 flex items-center gap-3">
             <span className="text-2xl font-bold">{money(variant?.priceCents ?? p.minPriceCents)}</span>
             {p.isNew && <span className="badge bg-flag text-white">New</span>}
@@ -109,7 +111,7 @@ export default function ProductPage() {
             <div className="mt-6">
               <div className="mb-2 flex items-center justify-between text-sm text-gray-600">
                 <span>Size: <span className="font-semibold text-ink">{size}</span></span>
-                {desc.rows.length > 0 && <a href="#size-chart" className="underline hover:text-ink">Size chart</a>}
+                {desc.rows.length > 0 && <a href="#size-chart" className="underline hover:text-black">Size chart</a>}
               </div>
               <div className="flex flex-wrap gap-2">
                 {sizes.map((s) => {
@@ -129,10 +131,10 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-5 flex items-center gap-3">
-            <div className="flex items-center rounded-full border border-gray-300 bg-white">
-              <button className="rounded-full px-4 py-3" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease">−</button>
+            <div className="flex items-center rounded-sm border border-gray-300 bg-white">
+              <button className="px-4 py-3.5" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease">−</button>
               <span className="w-6 text-center font-medium" aria-live="polite">{qty}</span>
-              <button className="rounded-full px-4 py-3" onClick={() => setQty((q) => Math.min(10, q + 1))} aria-label="Increase">+</button>
+              <button className="px-4 py-3.5" onClick={() => setQty((q) => Math.min(10, q + 1))} aria-label="Increase">+</button>
             </div>
             <button className="btn-primary flex-1" disabled={!variant || !inStock}
               onClick={() => variant && add({ variantId: variant.id, slug: p.slug, name: p.name, variantLabel: [variant.size && `Size ${variant.size}`, variant.color].filter(Boolean).join(' / '), image: p.images[0], unitPriceCents: variant.priceCents }, qty)}>
@@ -140,7 +142,7 @@ export default function ProductPage() {
             </button>
           </div>
 
-          <ul className="mt-6 grid gap-3 rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-700 sm:grid-cols-3">
+          <ul className="mt-6 grid gap-3 border-y border-gray-200 py-4 text-sm text-gray-700 sm:grid-cols-3">
             <li className="flex items-center gap-2"><TruckIcon />Ships in 2–3 days</li>
             <li className="flex items-center gap-2"><ReturnIcon />7-day returns</li>
             <li className="flex items-center gap-2"><LockIcon />Secure checkout</li>
@@ -148,7 +150,7 @@ export default function ProductPage() {
 
           {desc.paragraphs.length > 0 && (
             <div className="prose-store mt-8 text-[16px] leading-relaxed text-gray-800">
-              <h2 className="mb-3 text-lg">Description</h2>
+              <h2 className="mb-3 text-xl">Description</h2>
               {desc.paragraphs.map((t, i) => <p key={i}>{t}</p>)}
             </div>
           )}
@@ -159,8 +161,8 @@ export default function ProductPage() {
           )}
           {desc.rows.length > 0 && (
             <div id="size-chart" className="mt-8 scroll-mt-40">
-              <h2 className="mb-3 text-lg">Size chart</h2>
-              <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+              <h2 className="mb-3 text-xl">Size chart</h2>
+              <div className="overflow-x-auto rounded-sm border border-gray-200 bg-white">
                 <table className="w-full whitespace-nowrap text-sm">
                   <tbody>
                     {desc.rows.map((r, i) => (
@@ -177,12 +179,15 @@ export default function ProductPage() {
         </div>
       </div>
 
+    </div>
       {related.length > 0 && (
-        <section className="mt-16 border-t border-gray-200 pt-12 md:mt-24">
-          <h2 className="text-center text-2xl md:text-3xl">You may also like</h2>
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-4">{related.map((x) => <ProductCard key={x.slug} p={x} />)}</div>
+        <section className="mt-10 bg-black text-white md:mt-16">
+          <div className="section">
+            <h2 className="section-title mb-10 md:mb-14"><Script>You may</Script>Also Like</h2>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-14">{related.map((x) => <ProductCard key={x.slug} p={x} />)}</div>
+          </div>
         </section>
       )}
-    </div>
+    </>
   );
 }

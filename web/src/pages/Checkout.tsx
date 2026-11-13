@@ -122,7 +122,7 @@ export default function Checkout() {
   return (
     <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-5 py-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-10">
       <div className="min-w-0 space-y-6">
-        <h1 className="text-3xl md:text-4xl">Checkout</h1>
+        <h1 className="text-4xl md:text-5xl">Checkout</h1>
 
         <section className="card">
           <h2 className="mb-4 text-lg">1. Your information</h2>
@@ -136,11 +136,11 @@ export default function Checkout() {
         <section className="card">
           <h2 className="mb-4 text-lg">2. Delivery</h2>
           <div className="space-y-3">
-            <label className={`flex cursor-pointer items-start gap-3 rounded-lg border-2 p-4 transition ${fulfillment === 'SHIPPING' ? 'border-ink bg-mist' : 'border-gray-200'}`}>
+            <label className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 p-4 transition ${fulfillment === 'SHIPPING' ? 'border-black bg-mist' : 'border-gray-200'}`}>
               <input type="radio" checked={fulfillment === 'SHIPPING'} onChange={() => setFulfillment('SHIPPING')} className="mt-1 accent-ink" />
               <span><b>Standard Shipping</b><br /><span className="text-sm text-gray-600">{money(catalog?.settings.shippingFlatCents ?? 0)} flat rate · ships in 2–3 business days</span></span>
             </label>
-            <label className={`flex cursor-pointer items-start gap-3 rounded-lg border-2 p-4 transition ${fulfillment === 'LOCAL_PICKUP' ? 'border-ink bg-mist' : 'border-gray-200'}`}>
+            <label className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 p-4 transition ${fulfillment === 'LOCAL_PICKUP' ? 'border-black bg-mist' : 'border-gray-200'}`}>
               <input type="radio" checked={fulfillment === 'LOCAL_PICKUP'} onChange={() => setFulfillment('LOCAL_PICKUP')} className="mt-1 accent-ink" />
               <span><b>Local Pickup</b> <span className="text-sm text-gray-600">· free</span></span>
             </label>

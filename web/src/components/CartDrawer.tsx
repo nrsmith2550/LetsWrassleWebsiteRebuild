@@ -11,11 +11,11 @@ export default function CartDrawer() {
     <>
       <div onClick={() => setOpen(false)} className={`fixed inset-0 z-40 bg-black/50 transition-opacity ${open ? 'opacity-100' : 'pointer-events-none opacity-0'}`} />
       <aside
-        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white shadow-2xl transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col bg-white text-ink shadow-2xl transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b px-5 py-4">
-          <h2 className="text-xl">Your Cart{lines.length > 0 && <span className="ml-2 text-sm font-normal text-gray-500">{count} {count === 1 ? 'item' : 'items'}</span>}</h2>
+          <h2 className="text-2xl">Your Cart{lines.length > 0 && <span className="ml-2 font-sans text-sm font-normal normal-case tracking-normal text-gray-500">{count} {count === 1 ? 'item' : 'items'}</span>}</h2>
           <button onClick={() => setOpen(false)} className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-2xl leading-none hover:bg-fog" aria-label="Close cart">×</button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-4">
@@ -34,10 +34,10 @@ export default function CartDrawer() {
                     <Link to={`/product/${l.slug}`} onClick={() => setOpen(false)} className="font-semibold hover:underline">{l.name}</Link>
                     <div className="text-gray-500">{l.variantLabel}</div>
                     <div className="mt-2 flex items-center gap-3">
-                      <div className="flex items-center rounded-full border border-gray-300">
-                        <button className="rounded-full px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity - 1)} aria-label="Decrease">−</button>
+                      <div className="flex items-center rounded-sm border border-gray-300">
+                        <button className="px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity - 1)} aria-label="Decrease">−</button>
                         <span className="w-6 text-center">{l.quantity}</span>
-                        <button className="rounded-full px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity + 1)} aria-label="Increase">+</button>
+                        <button className="px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity + 1)} aria-label="Increase">+</button>
                       </div>
                       <button onClick={() => remove(l.variantId)} className="text-xs text-gray-600 underline hover:text-red-700">Remove</button>
                     </div>
