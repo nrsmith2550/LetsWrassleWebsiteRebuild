@@ -4,9 +4,9 @@
   "price": 25,
   "description": "Show your love for the sport of wrestling with our first \"Let's Wrassle\" Premium T-Shirt. This poly-cotton t-shirt provides comfortability along with a minimalistic style.\nWith the \"Let's Wrassle\" Logo sublimated across the shirt's chest, you can be assured that your shirt will fit the same as the day it was crafted!\n\nMaterial: 52% cotton / 48% polyester\nColor: Green\nFit: True to Size / Athletic Fit\n\nSize chart\nSize: XS | S | M | L | XL | 2XL\nMen's/Unisex Chest: 31\"-34\" | 34\"-37\" | 38\"-41\" | 42\"-45\" | 46\"-49\" | 50\"-53\"\nMen's/Unisex Bottoms: 28\"-30\" | 30\"-32\" | 32\"-34\" | 34\"-36\" | 36\"-38\" | 38\"-40\"",
   "images": [
-    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5098015845.jpg",
-    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5098011599.jpg",
-    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5098014361.jpg"
+    "/uploads/products/5098015845.jpg",
+    "/uploads/products/5098011599.jpg",
+    "/uploads/products/5098014361.jpg"
   ],
   "featured": true,
   "active": true,
