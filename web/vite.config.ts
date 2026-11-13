@@ -15,12 +15,6 @@ export default defineConfig({
       plugins: [tailwindcss({ config: path.join(here, 'tailwind.config.js') }), autoprefixer()],
     },
   },
-  build: { outDir: path.resolve(here, '../dist/public'), emptyOutDir: true },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': 'http://localhost:4000',
-      '/uploads': 'http://localhost:4000',
-    },
-  },
+  build: { outDir: path.resolve(here, '../dist'), emptyOutDir: true },
+  server: { port: 5173, fs: { allow: [path.resolve(here, '..')] } },
 });

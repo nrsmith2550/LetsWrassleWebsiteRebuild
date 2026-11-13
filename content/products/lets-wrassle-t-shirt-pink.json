@@ -1,0 +1,38 @@
+{
+  "name": "Let's Wrassle T-Shirt - Pink",
+  "category": "t-shirts",
+  "price": 25,
+  "description": "Let's Wrassle tee. Soft, breathable, built to move with you through the final whistle.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-10-04T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Pink",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Pink",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Pink",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Pink",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Pink",
+      "inStock": true
+    }
+  ]
+}

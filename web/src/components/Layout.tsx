@@ -1,39 +1,28 @@
 import { useState } from 'react';
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from '../lib/auth';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useCart } from '../lib/cart';
+import { useCatalog } from '../lib/catalog';
 import CartDrawer from './CartDrawer';
 
 const navCls = ({ isActive }: { isActive: boolean }) =>
   `text-sm font-bold uppercase tracking-widest transition hover:text-orange ${isActive ? 'text-orange' : 'text-white'}`;
 
 export default function Layout() {
-  const { user, logout } = useAuth();
   const { count, setOpen } = useCart();
+  const { catalog } = useCatalog();
   const [menu, setMenu] = useState(false);
-  const nav = useNavigate();
 
   return (
     <div className="flex min-h-screen flex-col">
+      {catalog?.settings.announcement && (
+        <div className="bg-orange px-4 py-2 text-center text-xs font-bold uppercase tracking-wider text-white">{catalog.settings.announcement}</div>
+      )}
       <header className="sticky top-0 z-30 bg-ink">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <Link to="/" className="font-display text-xl uppercase tracking-wide text-white">
-            Let's <span className="text-orange">Wrassle</span>
-          </Link>
+          <Link to="/" className="font-display text-xl uppercase tracking-wide text-white">Let's <span className="text-orange">Wrassle</span></Link>
           <nav className="hidden items-center gap-7 md:flex">
             <NavLink to="/shop" className={navCls}>Shop</NavLink>
             <NavLink to="/interviews" className={navCls}>Interviews</NavLink>
-            {user ? (
-              <>
-                <NavLink to="/account/orders" className={navCls}>My Orders</NavLink>
-                {user.role === 'ADMIN' && <NavLink to="/admin" className={navCls}>Admin</NavLink>}
-                <button onClick={async () => { await logout(); nav('/'); }} className="text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-white">
-                  Log out
-                </button>
-              </>
-            ) : (
-              <NavLink to="/login" className={navCls}>Log in</NavLink>
-            )}
           </nav>
           <div className="flex items-center gap-3">
             <button onClick={() => setOpen(true)} className="relative rounded p-2 text-white hover:text-orange" aria-label="Open cart">
@@ -49,15 +38,6 @@ export default function Layout() {
           <nav className="flex flex-col gap-4 border-t border-white/10 px-4 py-4 md:hidden" onClick={() => setMenu(false)}>
             <NavLink to="/shop" className={navCls}>Shop</NavLink>
             <NavLink to="/interviews" className={navCls}>Interviews</NavLink>
-            {user ? (
-              <>
-                <NavLink to="/account/orders" className={navCls}>My Orders</NavLink>
-                {user.role === 'ADMIN' && <NavLink to="/admin" className={navCls}>Admin</NavLink>}
-                <button onClick={async () => { await logout(); nav('/'); }} className="text-left text-sm font-bold uppercase tracking-widest text-gray-400">Log out</button>
-              </>
-            ) : (
-              <NavLink to="/login" className={navCls}>Log in</NavLink>
-            )}
           </nav>
         )}
       </header>
@@ -73,7 +53,7 @@ export default function Layout() {
           <div className="text-sm">
             <div className="mb-2 font-bold uppercase tracking-widest text-white">Delivery &amp; Returns</div>
             <p>Orders process within 2–3 business days. Returns &amp; exchanges within 7 days of delivery for unworn, unwashed items.</p>
-            <p className="mt-2 font-semibold text-orange">Please do not choose Local Pickup unless coordinated beforehand.</p>
+            <p className="mt-2 font-semibold text-orange">{catalog?.settings.pickupNotice}</p>
           </div>
           <div className="text-sm">
             <div className="mb-2 font-bold uppercase tracking-widest text-white">Contact</div>

@@ -1,0 +1,18 @@
+{
+  "videos": [
+    {
+      "title": "Sample Interview: Finding Your Why",
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "featuredName": "Featured Athlete",
+      "description": "Placeholder entry. Replace with your first athlete interview.",
+      "published": true
+    },
+    {
+      "title": "Sample Interview: Life After the Mat",
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "featuredName": "Guest Coach",
+      "description": "Placeholder entry. Edit or unpublish in the admin.",
+      "published": true
+    }
+  ]
+}

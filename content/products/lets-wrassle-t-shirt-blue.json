@@ -1,0 +1,38 @@
+{
+  "name": "Let's Wrassle T-Shirt - Blue",
+  "category": "t-shirts",
+  "price": 25,
+  "description": "Let's Wrassle tee. Soft, breathable, built to move with you through the final whistle.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-10-01T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Blue",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Blue",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Blue",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Blue",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Blue",
+      "inStock": true
+    }
+  ]
+}

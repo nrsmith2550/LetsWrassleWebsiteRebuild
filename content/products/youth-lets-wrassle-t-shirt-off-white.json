@@ -1,0 +1,28 @@
+{
+  "name": "YOUTH Let's Wrassle T-Shirt - Off White",
+  "category": "t-shirts",
+  "price": 22,
+  "description": "Youth-sized Let's Wrassle tee. Soft, breathable, built to move with you through the final whistle.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-10-08T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "YS",
+      "color": "Off White",
+      "inStock": true
+    },
+    {
+      "size": "YM",
+      "color": "Off White",
+      "inStock": true
+    },
+    {
+      "size": "YL",
+      "color": "Off White",
+      "inStock": true
+    }
+  ]
+}

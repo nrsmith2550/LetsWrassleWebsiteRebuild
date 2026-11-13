@@ -1,0 +1,38 @@
+{
+  "name": "Let's Wrassle T-Shirt - Halloween Orange",
+  "category": "t-shirts",
+  "price": 25,
+  "description": "Carve your way into the practice room with our Halloween inspired tee.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": true,
+  "date": "2025-10-06T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Orange",
+      "inStock": true
+    }
+  ]
+}

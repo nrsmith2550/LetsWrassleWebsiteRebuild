@@ -1,0 +1,23 @@
+# Local secrets for `npm run dev`. Copy to .dev.vars (git-ignored).
+# In Cloudflare, set the same names under Pages project > Settings > Variables and Secrets
+# (use SANDBOX/TEST keys for "Preview" and LIVE keys for "Production").
+
+# Square (card payments)
+SQUARE_ENVIRONMENT=sandbox
+SQUARE_ACCESS_TOKEN=
+SQUARE_APPLICATION_ID=
+SQUARE_LOCATION_ID=
+
+# Stripe (Apple Pay / Google Pay)
+STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+# Order emails via Resend (https://resend.com). Without a key, emails are only logged.
+RESEND_API_KEY=
+EMAIL_FROM="Let's Wrassle Apparel <orders@letswrassleapparel.com>"
+OWNER_EMAIL=support@letswrassleapparel.com
+
+# Admin login (GitHub OAuth App; callback URL: https://YOUR-DOMAIN/api/callback)
+GITHUB_OAUTH_CLIENT_ID=
+GITHUB_OAUTH_CLIENT_SECRET=

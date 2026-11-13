@@ -1,0 +1,38 @@
+{
+  "name": "Let's Wrassle Crewneck - Gray",
+  "category": "crewneck-sweatshirts",
+  "price": 32,
+  "description": "Heavyweight, cozy crewneck sweatshirt.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-10-09T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Gray",
+      "inStock": true
+    }
+  ]
+}

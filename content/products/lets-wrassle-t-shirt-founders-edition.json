@@ -1,0 +1,38 @@
+{
+  "name": "Let's Wrassle T-Shirt - Founders Edition",
+  "category": "t-shirts",
+  "price": 25,
+  "description": "Let's Wrassle tee. Soft, breathable, built to move with you through the final whistle.",
+  "images": [],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-10-05T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Founders Edition",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Founders Edition",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Founders Edition",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Founders Edition",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Founders Edition",
+      "inStock": true
+    }
+  ]
+}
