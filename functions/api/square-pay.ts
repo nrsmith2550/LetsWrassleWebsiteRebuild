@@ -1,3 +1,4 @@
+import { saveOrder } from '../../shared/db';
 import { sendOrderEmails } from '../../shared/email';
 import { priceCart } from '../../shared/pricing';
 import { json, loadCatalog, newOrderNumber, type Ctx } from '../../shared/server';
@@ -71,6 +72,7 @@ export const onRequestPost = async (ctx: Ctx) => {
   }
 
   const order: OrderSummary = { ...quote, orderNumber, provider: 'SQUARE', customer: req.customer, fulfillment: req.fulfillment, address: req.address };
-  ctx.waitUntil(sendOrderEmails(env, order));
+  const isNew = await saveOrder(env, order, String(data.payment.id));
+  if (isNew) ctx.waitUntil(sendOrderEmails(env, order));
   return json({ order });
 };

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title>Let's Wrassle Admin</title>
+    <title>Let's Wrassle Product Editor</title>
   </head>
   <body>
     <script>window.CMS_MANUAL_INIT = true;</script>
@@ -22,6 +22,7 @@
         { label: 'Featured on home page', name: 'featured', widget: 'boolean', default: false },
         { label: 'Show "New" badge', name: 'isNew', widget: 'boolean', default: false },
         { label: 'Visible in store', name: 'active', widget: 'boolean', default: true },
+        { label: 'Shipping weight per item (oz, optional)', name: 'weightOz', widget: 'number', value_type: 'float', required: false, min: 0, hint: 'Leave empty to use the default from Store settings.' },
         { label: 'Date added', name: 'date', widget: 'datetime', default: '' },
         { label: 'Sizes / colors', name: 'variants', widget: 'list', summary: '{{fields.size}} {{fields.color}}', fields: [
           { label: 'Size', name: 'size', widget: 'string', required: false, hint: 'e.g. S, M, L, XL, YM, One Size' },
@@ -75,6 +76,10 @@
                 { label: 'Free shipping over (USD, 0 = off)', name: 'freeShippingOver', widget: 'number', value_type: 'float', min: 0 },
                 { label: 'Sales tax rate (%)', name: 'taxRatePercent', widget: 'number', value_type: 'float', min: 0 },
                 { label: 'Local pickup notice', name: 'pickupNotice', widget: 'string' },
+                { label: 'Default weight per item (oz)', name: 'itemWeightOz', widget: 'number', value_type: 'float', min: 0, hint: 'Pre-fills the shipping label form.' },
+                { label: 'Default box length (in)', name: 'pkgLengthIn', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Default box width (in)', name: 'pkgWidthIn', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Default box height (in)', name: 'pkgHeightIn', widget: 'number', value_type: 'float', min: 0 },
               ] },
             ] },
           ],

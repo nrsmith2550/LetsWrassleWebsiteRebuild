@@ -61,6 +61,41 @@ function addressBlock(o: OrderSummary) {
   return `${esc(a.line1)}${a.line2 ? '<br/>' + esc(a.line2) : ''}<br/>${esc(a.city)}, ${esc(a.state)} ${esc(a.postalCode)}<br/>${esc(a.country)}`;
 }
 
+const STATUS_COPY: Record<string, string> = {
+  PROCESSING: 'Good news: we are now preparing your order.',
+  SHIPPED: 'Your order is on its way!',
+  READY_FOR_PICKUP: 'Your order is ready for pickup! We will coordinate the details with you.',
+  DELIVERED: 'Your order has been delivered. Thanks for repping Let’s Wrassle!',
+  CANCELLED: 'Your order has been cancelled. If you did not expect this, please contact us.',
+};
+
+export interface StatusEmailOrder {
+  orderNumber: string;
+  customerName: string;
+  customerEmail: string;
+  status: string;
+  carrier?: string | null;
+  service?: string | null;
+  trackingNumber?: string | null;
+  trackingUrl?: string | null;
+}
+
+/** Customer update when the owner changes an order's status (includes tracking once shipped). */
+export async function sendStatusEmail(env: EmailEnv, o: StatusEmailOrder, note?: string) {
+  const copy = STATUS_COPY[o.status];
+  if (!copy) return;
+  const tracking = o.trackingNumber
+    ? `<p><strong>Tracking:</strong> ${o.trackingUrl ? `<a href="${esc(o.trackingUrl)}" style="color:#e8731f">${esc(o.trackingNumber)}</a>` : esc(o.trackingNumber)}
+       ${o.carrier ? `(${esc(o.carrier)} ${esc(o.service || '')})` : ''}</p>`
+    : '';
+  const html = layout(
+    `Order ${o.orderNumber}: ${o.status.replace(/_/g, ' ').toLowerCase()}`,
+    `<p>Hi ${esc(o.customerName.split(' ')[0])},</p><p>${esc(copy)}</p>
+     ${note ? `<p style="background:#faf8f5;border-left:4px solid #e8731f;padding:10px 14px">${esc(note)}</p>` : ''}${tracking}`,
+  );
+  await sendEmail(env, o.customerEmail, `Order ${o.orderNumber} update: ${o.status.replace(/_/g, ' ').toLowerCase()}`, html);
+}
+
 /** Owner alert + customer confirmation. */
 export async function sendOrderEmails(env: EmailEnv, o: OrderSummary) {
   const customerHtml = layout(

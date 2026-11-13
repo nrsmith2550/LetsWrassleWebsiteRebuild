@@ -3,5 +3,9 @@
   "shippingFlat": 5.99,
   "freeShippingOver": 0,
   "taxRatePercent": 6,
-  "pickupNotice": "Please only select Local Pickup if coordinated beforehand."
+  "pickupNotice": "Please only select Local Pickup if coordinated beforehand.",
+  "itemWeightOz": 8,
+  "pkgLengthIn": 10,
+  "pkgWidthIn": 8,
+  "pkgHeightIn": 2
 }

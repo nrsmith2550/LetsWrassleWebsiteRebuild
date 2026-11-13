@@ -1,3 +1,4 @@
+import { saveOrder } from '../../shared/db';
 import { sendOrderEmails } from '../../shared/email';
 import { json, type Ctx } from '../../shared/server';
 import type { OrderSummary } from '../../shared/types';
@@ -52,7 +53,8 @@ export const onRequestPost = async (ctx: Ctx) => {
         fulfillment: m.fulfillment === 'LOCAL_PICKUP' ? 'LOCAL_PICKUP' : 'SHIPPING',
         address: m.address ? JSON.parse(m.address) : undefined,
       };
-      ctx.waitUntil(sendOrderEmails(env, order));
+      // Stripe retries webhooks; only the first delivery saves the order and sends emails.
+      if (await saveOrder(env, order, pi.id)) ctx.waitUntil(sendOrderEmails(env, order));
     }
   }
   return json({ received: true });

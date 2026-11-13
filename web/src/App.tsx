@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import AdminApp from './admin/AdminApp';
 import Layout from './components/Layout';
 import Checkout from './pages/Checkout';
 import Home from './pages/Home';
@@ -19,6 +20,7 @@ export default function App() {
     <>
       <ScrollToTop />
       <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />

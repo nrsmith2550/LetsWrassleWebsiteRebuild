@@ -18,6 +18,8 @@ export interface CatProduct {
   date: string;
   priceCents: number;
   minPriceCents: number;
+  /** Optional per-item shipping weight override (ounces). */
+  weightOz?: number;
   variants: CatVariant[];
 }
 
@@ -43,6 +45,11 @@ export interface CatSettings {
   freeShippingOverCents: number;
   taxRate: number;
   pickupNotice: string;
+  /** Default shipping package (used to pre-fill labels in the admin). */
+  itemWeightOz: number;
+  pkgLengthIn: number;
+  pkgWidthIn: number;
+  pkgHeightIn: number;
 }
 
 export interface Catalog {

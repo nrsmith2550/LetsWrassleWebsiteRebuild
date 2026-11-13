@@ -20,6 +20,10 @@ const settings = {
   freeShippingOverCents: cents(settingsRaw.freeShippingOver ?? 0),
   taxRate: Number(settingsRaw.taxRatePercent ?? 6) / 100,
   pickupNotice: settingsRaw.pickupNotice || 'Please only select Local Pickup if coordinated beforehand.',
+  itemWeightOz: Number(settingsRaw.itemWeightOz ?? 8),
+  pkgLengthIn: Number(settingsRaw.pkgLengthIn ?? 10),
+  pkgWidthIn: Number(settingsRaw.pkgWidthIn ?? 8),
+  pkgHeightIn: Number(settingsRaw.pkgHeightIn ?? 2),
 };
 
 const categories = (read('content/categories.json').categories || []).map((c) => ({
@@ -60,6 +64,7 @@ for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort()
     date: p.date || '2025-01-01T00:00:00.000Z',
     priceCents: cents(p.price),
     minPriceCents: Math.min(...variants.map((v) => v.priceCents)),
+    ...(p.weightOz ? { weightOz: Number(p.weightOz) } : {}),
     variants,
   });
 }
