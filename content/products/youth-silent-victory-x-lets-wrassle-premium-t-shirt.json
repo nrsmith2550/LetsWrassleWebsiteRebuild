@@ -1,0 +1,37 @@
+{
+  "name": "YOUTH Silent Victory x Let's Wrassle Premium T-Shirt",
+  "category": "collabs",
+  "price": 22,
+  "description": "Two brands. One mindset. Built for war, forged in silence.\nThis collab between Let's Wrassle, Co. and Silent Victory Training Center brings together the raw tenacity of the wrestling mat and the no-excuses mentality of the training grind.\nOn the front, a fierce bulldog illustration sits at the center of a circular battle mantra:\n\"SILENT VICTORY TC – FORGED IN SILENCE | BUILT FOR WAR\"\nA symbol of unshakable grit, unspoken discipline, and fight-over-flash mentality.\nOn the back, the vertical Let's Wrassle mark in bold black and pink hits loud and unapologetic—just like your presence when you walk into the room or step on the mat.\n\nMaterial: 52% cotton / 48% polyester\nColor: Cement / Off White\nFit: True to Size / Athletic Fit\n\nYouth fit & size chart\nSize: YS | YM | YL | YXL\nYouth: 6-8 | 10-12 | 14-16 | 18-20",
+  "images": [
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147825079.jpg",
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147764499.jpg",
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147837784.jpg"
+  ],
+  "featured": false,
+  "active": true,
+  "isNew": false,
+  "date": "2025-09-17T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "Youth Small",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth Medium",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth Large",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth XL",
+      "color": "Cement / Off White",
+      "inStock": true
+    }
+  ]
+}

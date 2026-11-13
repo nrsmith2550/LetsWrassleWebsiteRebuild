@@ -1,0 +1,44 @@
+{
+  "name": "Silent Victory x Let's Wrassle Premium T-Shirt",
+  "category": "collabs",
+  "price": 25,
+  "description": "Two brands. One mindset. Built for war, forged in silence.\nThis collab between Let's Wrassle, Co. and Silent Victory Training Center brings together the raw tenacity of the wrestling mat and the no-excuses mentality of the training grind.\nOn the front, a fierce bulldog illustration sits at the center of a circular battle mantra:\n\"SILENT VICTORY TC – FORGED IN SILENCE | BUILT FOR WAR\"\nA symbol of unshakable grit, unspoken discipline, and fight-over-flash mentality.\nOn the back, the vertical Let's Wrassle mark in bold black and pink hits loud and unapologetic—just like your presence when you walk into the room or step on the mat.\n\nMaterial: 52% cotton / 48% polyester\nColor: Cement / Off White\nFit: True to Size / Athletic Fit\n\nSize chart\nSize: XS | S | M | L | XL | 2XL\nMen's/Unisex Chest: 31\"-34\" | 34\"-37\" | 38\"-41\" | 42\"-45\" | 46\"-49\" | 50\"-53\"\nMen's/Unisex Bottoms: 28\"-30\" | 30\"-32\" | 32\"-34\" | 34\"-36\" | 36\"-38\" | 38\"-40\"",
+  "images": [
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147760578.jpg",
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147774017.jpg",
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147774022.jpg",
+    "https://d2j6dbq0eux0bg.cloudfront.net/images/118339778/5147774027.jpg"
+  ],
+  "featured": false,
+  "active": true,
+  "isNew": false,
+  "date": "2025-09-05T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Cement / Off White",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Cement / Off White",
+      "price": 30,
+      "inStock": true
+    }
+  ]
+}

@@ -35,7 +35,9 @@ export default function Shop() {
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
           <Link to="/shop" className={tab(!categorySlug)}>All</Link>
-          {catalog?.categories.map((c) => <Link key={c.slug} to={`/shop/${c.slug}`} className={tab(categorySlug === c.slug)}>{c.name}</Link>)}
+          {catalog?.categories
+            .filter((c) => catalog.products.some((p) => p.active && p.category === c.slug))
+            .map((c) => <Link key={c.slug} to={`/shop/${c.slug}`} className={tab(categorySlug === c.slug)}>{c.name}</Link>)}
         </div>
         <select className="input md:w-56" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
           {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}

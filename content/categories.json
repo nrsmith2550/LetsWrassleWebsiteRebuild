@@ -24,6 +24,11 @@
       "name": "Accessories",
       "slug": "accessories",
       "description": "Caps, socks and more."
+    },
+    {
+      "name": "Coaching Software",
+      "slug": "coaching-software",
+      "description": "Digital tools for coaches."
     }
   ]
 }
