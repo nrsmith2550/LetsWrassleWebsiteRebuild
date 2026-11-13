@@ -30,8 +30,7 @@ so a customer can never be charged a different price than the one shown.
 
 ## One-time setup
 
-1. **Cloudflare**: create a free account. Create the Pages project once:
-   `npx wrangler pages project create letswrassle --production-branch=main`
+1. **Cloudflare**: create a free account. (The Pages project is created automatically by the first deploy.)
 2. **GitHub repo secrets** (Settings > Secrets and variables > Actions): `CLOUDFLARE_API_TOKEN`
    (template "Edit Cloudflare Workers", plus Pages edit) and `CLOUDFLARE_ACCOUNT_ID`.
 3. **Cloudflare variables** (Pages project > Settings > Variables and Secrets). Use **sandbox/test** values for
