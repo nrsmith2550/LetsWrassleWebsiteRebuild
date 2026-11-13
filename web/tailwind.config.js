@@ -12,6 +12,12 @@ export default {
         ink: '#1b1d20',
         orange: { DEFAULT: '#e8731f', dark: '#c85f12' },
         bone: '#f6f3ef',
+        // Storefront neutrals (matched to letswrassleapparel.com)
+        coal: '#121212',
+        mist: '#f5f5f5',
+        fog: '#ececec',
+        slate: '#22282e',
+        flag: '#e5484d',
         // Admin hub palette (modeled on the IONOS store portal)
         ionos: {
           top: '#0f3b8c',
@@ -31,6 +37,9 @@ export default {
       },
       fontFamily: {
         display: ['"Archivo Black"', 'Impact', 'Arial Black', 'sans-serif'],
+        // Storefront display type, echoing the logo: heavy block caps + a handwritten accent
+        block: ['"League Spartan"', '"Archivo Black"', 'Arial Black', 'sans-serif'],
+        script: ['Sacramento', 'cursive'],
         sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
     },

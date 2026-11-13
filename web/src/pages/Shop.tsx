@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
+import ProductCard, { ProductCardSkeleton } from '../components/ProductCard';
+import { Script } from '../components/Title';
 import { useCatalog } from '../lib/catalog';
 
 const SORTS = [
@@ -27,26 +28,38 @@ export default function Shop() {
   }, [catalog, categorySlug, sort]);
 
   const tab = (active: boolean) =>
-    `whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wider transition ${active ? 'bg-ink text-white' : 'bg-bone text-ink hover:bg-orange hover:text-white'}`;
+    `whitespace-nowrap rounded-sm border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition ${active ? 'border-white bg-white text-black' : 'border-white/30 text-white/80 hover:border-white hover:text-white'}`;
+
+  const category = catalog?.categories.find((c) => c.slug === categorySlug);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="mb-6 text-4xl">{catalog?.categories.find((c) => c.slug === categorySlug)?.name || 'Shop All'}</h1>
-      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+    <div className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
+      <div>
+        <h1 className="text-5xl md:text-7xl">{category ? category.name : <><Script>Shop</Script>All</>}</h1>
+        <p className="mt-4 max-w-xl text-lg text-white/70">{category?.description || "Every Let's Wrassle release in one place."}</p>
+      </div>
+      <div className="mb-10 mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1">
           <Link to="/shop" className={tab(!categorySlug)}>All</Link>
           {catalog?.categories
             .filter((c) => catalog.products.some((p) => p.active && p.category === c.slug))
             .map((c) => <Link key={c.slug} to={`/shop/${c.slug}`} className={tab(categorySlug === c.slug)}>{c.name}</Link>)}
         </div>
-        <select className="input md:w-56" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
-          {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-        </select>
+        <div className="flex items-center gap-3">
+          {catalog && <span className="whitespace-nowrap text-sm text-white/60">{products.length} {products.length === 1 ? 'product' : 'products'}</span>}
+          <select className="input !py-2.5 md:w-56" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
+            {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+          </select>
+        </div>
       </div>
-      {error ? <p className="py-20 text-center text-red-600">{error}</p> : !catalog ? <p className="py-20 text-center text-gray-500">Loading…</p> : products.length === 0 ? (
-        <p className="py-20 text-center text-gray-500">No products here yet.</p>
+      {error ? (
+        <div className="py-20 text-center"><p className="text-red-400">{error}</p><p className="mt-2 text-sm text-white/60">Please refresh the page to try again.</p></div>
+      ) : !catalog ? (
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-14">{Array.from({ length: 6 }, (_, k) => <ProductCardSkeleton key={k} />)}</div>
+      ) : products.length === 0 ? (
+        <div className="py-20 text-center"><p className="text-white/60">No products here yet.</p><Link to="/shop" className="btn-light mt-5">View all products</Link></div>
       ) : (
-        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">{products.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-14">{products.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
       )}
     </div>
   );

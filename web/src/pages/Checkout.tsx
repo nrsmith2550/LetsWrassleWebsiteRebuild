@@ -113,16 +113,16 @@ export default function Checkout() {
     }
   }
 
-  if (!lines.length) return <div className="p-20 text-center"><h1 className="text-3xl">Your cart is empty</h1><Link to="/shop" className="btn-primary mt-6">Shop now</Link></div>;
+  if (!lines.length) return <div className="px-5 py-24 text-center"><h1 className="text-3xl">Your cart is empty</h1><Link to="/shop" className="btn-primary mt-6">Shop now</Link></div>;
 
   const total = quote?.totalCents ?? 0;
   const set = (k: string) => (e: any) => setAddr({ ...addr, [k]: e.target.value });
   const noGateways = pay && !pay.square && !pay.stripePublishableKey;
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 lg:grid-cols-[1fr_380px]">
-      <div className="space-y-8">
-        <h1 className="text-3xl">Checkout</h1>
+    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-5 py-10 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-10">
+      <div className="min-w-0 space-y-6">
+        <h1 className="text-4xl md:text-5xl">Checkout</h1>
 
         <section className="card">
           <h2 className="mb-4 text-lg">1. Your information</h2>
@@ -136,15 +136,15 @@ export default function Checkout() {
         <section className="card">
           <h2 className="mb-4 text-lg">2. Delivery</h2>
           <div className="space-y-3">
-            <label className={`flex cursor-pointer items-start gap-3 rounded border-2 p-3 ${fulfillment === 'SHIPPING' ? 'border-ink' : 'border-gray-200'}`}>
-              <input type="radio" checked={fulfillment === 'SHIPPING'} onChange={() => setFulfillment('SHIPPING')} className="mt-1" />
+            <label className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 p-4 transition ${fulfillment === 'SHIPPING' ? 'border-black bg-mist' : 'border-gray-200'}`}>
+              <input type="radio" checked={fulfillment === 'SHIPPING'} onChange={() => setFulfillment('SHIPPING')} className="mt-1 accent-ink" />
               <span><b>Standard Shipping</b><br /><span className="text-sm text-gray-600">{money(catalog?.settings.shippingFlatCents ?? 0)} flat rate · ships in 2–3 business days</span></span>
             </label>
-            <label className={`flex cursor-pointer items-start gap-3 rounded border-2 p-3 ${fulfillment === 'LOCAL_PICKUP' ? 'border-ink' : 'border-gray-200'}`}>
-              <input type="radio" checked={fulfillment === 'LOCAL_PICKUP'} onChange={() => setFulfillment('LOCAL_PICKUP')} className="mt-1" />
+            <label className={`flex cursor-pointer items-start gap-3 rounded-sm border-2 p-4 transition ${fulfillment === 'LOCAL_PICKUP' ? 'border-black bg-mist' : 'border-gray-200'}`}>
+              <input type="radio" checked={fulfillment === 'LOCAL_PICKUP'} onChange={() => setFulfillment('LOCAL_PICKUP')} className="mt-1 accent-ink" />
               <span><b>Local Pickup</b> <span className="text-sm text-gray-600">· free</span></span>
             </label>
-            {fulfillment === 'LOCAL_PICKUP' && <p className="rounded bg-orange/10 p-3 text-sm font-semibold text-orange-dark">{catalog?.settings.pickupNotice}</p>}
+            {fulfillment === 'LOCAL_PICKUP' && <p className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm font-semibold text-amber-900">{catalog?.settings.pickupNotice}</p>}
             {fulfillment === 'SHIPPING' && (
               <div className="grid gap-4 pt-2 sm:grid-cols-2">
                 <div className="sm:col-span-2"><label className="label">Address *</label><input className="input" value={addr.line1} onChange={set('line1')} autoComplete="address-line1" /></div>
@@ -169,7 +169,7 @@ export default function Checkout() {
             <div className="space-y-5">
               {pay.stripePublishableKey && quote && (
                 <div className={walletShown ? '' : 'hidden'}>
-                  <div className="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Apple Pay / Google Pay</div>
+                  <div className="mb-2 text-sm font-medium text-gray-700">Apple Pay / Google Pay</div>
                   <Elements stripe={getStripe(pay.stripePublishableKey)} options={{ mode: 'payment', amount: total, currency: 'usd', appearance: { theme: 'stripe' } }}>
                     <WalletPay build={build} totalCents={total} onPaid={done} onError={setError} onAvailable={setWalletShown} />
                   </Elements>
@@ -178,7 +178,7 @@ export default function Checkout() {
 
               {pay.square && (
                 <div>
-                  {pay.stripePublishableKey && walletShown && <div className="mb-3 flex items-center gap-3 text-xs uppercase tracking-wider text-gray-400"><span className="h-px flex-1 bg-gray-200" />or pay with card<span className="h-px flex-1 bg-gray-200" /></div>}
+                  {pay.stripePublishableKey && walletShown && <div className="mb-3 flex items-center gap-3 text-sm text-gray-500"><span className="h-px flex-1 bg-gray-200" />or pay with card<span className="h-px flex-1 bg-gray-200" /></div>}
                   <div className={busy ? 'pointer-events-none opacity-60' : ''}>
                     <PaymentForm
                       applicationId={pay.square.applicationId}
@@ -205,13 +205,13 @@ export default function Checkout() {
         </section>
       </div>
 
-      <aside className="h-fit lg:sticky lg:top-24">
+      <aside className="h-fit lg:sticky lg:top-36">
         <div className="card">
           <h2 className="mb-4 text-lg">Order summary</h2>
           <ul className="divide-y">
             {lines.map((l) => (
               <li key={l.variantId} className="flex gap-3 py-3 text-sm">
-                <div className="h-14 w-14 shrink-0 overflow-hidden rounded bg-bone"><ProductImage src={l.image} alt={l.name} /></div>
+                <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-white"><ProductImage src={l.image} alt={l.name} /></div>
                 <div className="flex-1"><div className="font-semibold">{l.name}</div><div className="text-gray-500">{l.variantLabel} × {l.quantity}</div></div>
                 <div className="font-bold">{money(l.unitPriceCents * l.quantity)}</div>
               </li>
