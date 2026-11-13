@@ -14,10 +14,9 @@ const stripeCache: Record<string, Promise<Stripe | null>> = {};
 const getStripe = (key: string) => (stripeCache[key] ||= loadStripe(key));
 
 /** Apple Pay / Google Pay via Stripe's Express Checkout Element. Payment happens in the wallet sheet on this page. */
-function WalletPay({ build, totalCents, onPaid, onError }: { build(): CheckoutRequest; totalCents: number; onPaid(o: OrderSummary): void; onError(m: string): void }) {
+function WalletPay({ build, totalCents, onPaid, onError, onAvailable }: { build(): CheckoutRequest; totalCents: number; onPaid(o: OrderSummary): void; onError(m: string): void; onAvailable(a: boolean): void }) {
   const stripe = useStripe();
   const elements = useElements();
-  const [available, setAvailable] = useState(true);
 
   async function confirm() {
     if (!stripe || !elements) return;
@@ -41,13 +40,13 @@ function WalletPay({ build, totalCents, onPaid, onError }: { build(): CheckoutRe
   }
 
   return (
-    <div className={available ? '' : 'hidden'} data-total={totalCents}>
+    <div data-total={totalCents}>
       <ExpressCheckoutElement
         options={{
           paymentMethods: { applePay: 'auto', googlePay: 'auto', link: 'never', paypal: 'never', amazonPay: 'never' },
           buttonHeight: 48,
         }}
-        onReady={(e) => setAvailable(!!e.availablePaymentMethods?.applePay || !!e.availablePaymentMethods?.googlePay)}
+        onReady={(e) => onAvailable(!!e.availablePaymentMethods?.applePay || !!e.availablePaymentMethods?.googlePay)}
         onClick={(e) => {
           try {
             build(); // validates the customer details before the wallet sheet opens
@@ -172,9 +171,8 @@ export default function Checkout() {
                 <div className={walletShown ? '' : 'hidden'}>
                   <div className="mb-2 text-xs font-bold uppercase tracking-wider text-gray-500">Apple Pay / Google Pay</div>
                   <Elements stripe={getStripe(pay.stripePublishableKey)} options={{ mode: 'payment', amount: total, currency: 'usd', appearance: { theme: 'stripe' } }}>
-                    <WalletPay build={build} totalCents={total} onPaid={done} onError={setError} />
+                    <WalletPay build={build} totalCents={total} onPaid={done} onError={setError} onAvailable={setWalletShown} />
                   </Elements>
-                  <WalletProbe onResult={setWalletShown} />
                 </div>
               )}
 
@@ -229,16 +227,4 @@ export default function Checkout() {
       </aside>
     </div>
   );
-}
-
-/** Hides the "Apple Pay / Google Pay" heading when the device offers neither. */
-function WalletProbe({ onResult }: { onResult(show: boolean): void }) {
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const hasButton = !!document.querySelector('[data-total] iframe');
-      onResult(hasButton);
-    }, 2500);
-    return () => clearTimeout(t);
-  }, []);
-  return null;
 }
