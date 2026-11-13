@@ -24,13 +24,24 @@ export const onRequestPost = async (ctx: Ctx) => {
     const body: any = await ctx.request.json().catch(() => ({}));
     if (o.labelUrl && !body.force) return json({ error: 'A label was already bought for this order.' }, 409);
 
-    let rateId = typeof body.rateId === 'string' ? body.rateId : '';
-    if (!rateId) {
+    let label;
+    if (typeof body.rateId === 'string' && body.rateId) {
+      label = await purchaseLabel(env, body.rateId);
+    } else {
+      // One click: try the cheapest rate; if that carrier/service refuses the purchase, try the next one.
       const parcel = parseParcel(body);
       const rates = await getRates(env, { ...o.address, name: o.customer.name, phone: o.customer.phone, email: o.customer.email }, parcel);
-      rateId = rates[0].id; // cheapest
+      let lastError: unknown = null;
+      for (const rate of rates.slice(0, 4)) {
+        try {
+          label = await purchaseLabel(env, rate.id);
+          break;
+        } catch (e) {
+          lastError = e;
+        }
+      }
+      if (!label) throw lastError;
     }
-    const label = await purchaseLabel(env, rateId);
 
     await env.DB.prepare(
       `UPDATE orders SET carrier=?, service=?, tracking_number=?, tracking_url=?, label_url=?, label_cost_cents=?,

@@ -83,8 +83,11 @@ export async function getRates(env: Env, to: Address & { name: string; phone?: s
     ],
     async: false,
   });
+  // USPS only by default (your Shippo account has USPS ready). Add UPS later with SHIPPO_CARRIERS=USPS,UPS
+  // once UPS is activated under Shippo > Settings > Carriers.
+  const allowed = (env.SHIPPO_CARRIERS || 'USPS').split(',').map((s) => s.trim().toUpperCase()).filter(Boolean);
   const rates: Rate[] = (shipment.rates || [])
-    .filter((r: any) => ['USPS', 'UPS'].includes(String(r.provider).toUpperCase()))
+    .filter((r: any) => allowed.includes(String(r.provider).toUpperCase()))
     .map((r: any) => ({
       id: r.object_id,
       provider: r.provider,
@@ -95,7 +98,7 @@ export async function getRates(env: Env, to: Address & { name: string; phone?: s
     .sort((a: Rate, b: Rate) => a.amountCents - b.amountCents);
   if (!rates.length) {
     const msgs = (shipment.messages || []).map((m: any) => m.text).filter(Boolean).join(' ');
-    throw new ShippoError(`No USPS/UPS rates came back for this address. ${msgs}`.trim(), 422);
+    throw new ShippoError(`No ${allowed.join('/')} rates came back for this address. ${msgs}`.trim(), 422);
   }
   return rates;
 }

@@ -33,6 +33,7 @@ export interface Env extends EmailEnv {
   SHIPPO_API_KEY?: string;
   SHIP_FROM_NAME?: string;
   SHIP_FROM_COMPANY?: string;
+  SHIPPO_CARRIERS?: string; // e.g. "USPS" (default) or "USPS,UPS"
   SHIP_FROM_STREET1?: string;
   SHIP_FROM_CITY?: string;
   SHIP_FROM_STATE?: string;
