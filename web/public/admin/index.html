@@ -37,7 +37,9 @@
           backend: {
             name: 'github',
             repo: 'nrsmith2550/LetsWrassleWebsiteRebuild',
-            branch: 'main',
+            // While testing on the feature-branch preview, edit that branch. Everywhere else
+            // (the live site after merge) the CMS edits main.
+            branch: window.location.hostname.startsWith('feature-static-site.') ? 'feature/static-site' : 'main',
             base_url: window.location.origin,
             auth_endpoint: 'api/auth',
           },
