@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NOTE: enum-like fields are stored as strings (portable across SQLite/Postgres).
+// Allowed values live in src/constants.ts.
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  phone        String?
+  passwordHash String
+  role         String   @default("CUSTOMER") // CUSTOMER | ADMIN
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String    @default("")
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  products    Product[]
+}
+
+model Product {
+  id              Int              @id @default(autoincrement())
+  name            String
+  slug            String           @unique
+  description     String           @default("")
+  basePriceCents  Int
+  categoryId      Int
+  category        Category         @relation(fields: [categoryId], references: [id])
+  imagesJson      String           @default("[]")
+  isFeatured      Boolean          @default(false)
+  isActive        Boolean          @default(true)
+  defaultWeightOz Float            @default(6)
+  defaultLengthIn Float            @default(10)
+  defaultWidthIn  Float            @default(8)
+  defaultHeightIn Float            @default(1)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  variants        ProductVariant[]
+  orderItems      OrderItem[]
+}
+
+model ProductVariant {
+  id                 Int         @id @default(autoincrement())
+  productId          Int
+  product            Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku                String      @unique
+  size               String      @default("")
+  color              String      @default("")
+  priceOverrideCents Int?
+  stockQuantity      Int         @default(0)
+  orderItems         OrderItem[]
+}
+
+model Order {
+  id                   Int         @id @default(autoincrement())
+  orderNumber          String      @unique
+  userId               Int?
+  user                 User?       @relation(fields: [userId], references: [id])
+  customerName         String
+  customerEmail        String
+  customerPhone        String
+  fulfillmentMethod    String // SHIPPING | LOCAL_PICKUP
+  shippingAddressJson  String? // {line1,line2,city,state,postalCode,country}
+  subtotalCents        Int
+  shippingCents        Int         @default(0)
+  taxCents             Int         @default(0)
+  totalCents           Int
+  paymentProvider      String // STRIPE | SQUARE
+  paymentTransactionId String?
+  paymentStatus        String      @default("PENDING") // PENDING | PAID | FAILED | REFUNDED
+  orderStatus          String      @default("PENDING") // PENDING | PROCESSING | READY_FOR_PICKUP | SHIPPED | DELIVERED | CANCELLED
+  packageWeightOz      Float?
+  packageLengthIn      Float?
+  packageWidthIn       Float?
+  packageHeightIn      Float?
+  shippingCarrier      String?
+  shippingService      String?
+  trackingNumber       String?
+  trackingUrl          String?
+  shippingLabelPdfUrl  String?
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  items                OrderItem[]
+
+  @@index([customerEmail])
+  @@index([paymentTransactionId])
+}
+
+model OrderItem {
+  id             Int             @id @default(autoincrement())
+  orderId        Int
+  order          Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      Int?
+  product        Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId      Int?
+  variant        ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  productName    String
+  variantSummary String          @default("")
+  quantity       Int
+  unitPriceCents Int
+}
+
+model VideoPost {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String   @default("")
+  videoUrl     String
+  thumbnailUrl String   @default("")
+  featuredName String   @default("")
+  isPublished  Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+}
