@@ -1,0 +1,22 @@
+name = "letswrassle"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "dist"
+
+# Orders database. Preview deployments (test keys) and the live site use SEPARATE databases,
+# so test orders never mix with real ones.
+[[d1_databases]]
+binding = "DB"
+database_name = "letswrassle-preview"
+database_id = "86fe5038-db3b-421e-ada9-06d62ac15695"
+
+[env.preview]
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "letswrassle-preview"
+database_id = "86fe5038-db3b-421e-ada9-06d62ac15695"
+
+[env.production]
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "letswrassle-live"
+database_id = "011cdf02-a010-494d-8996-f4bec56ec668"

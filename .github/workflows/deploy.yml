@@ -1,0 +1,67 @@
+name: Test & Deploy
+
+# Pull request                 -> checks + PREVIEW site (safe to test, uses sandbox keys)
+# Merge / push to main         -> checks + LIVE site
+# "Run workflow" button        -> redeploy any branch on demand
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+env:
+  PROJECT: letswrassle
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: node scripts/build-catalog.mjs   # fails the build on bad product data
+      - run: npm run typecheck
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with: { name: site, path: dist, retention-days: 3 }
+
+  deploy:
+    needs: check
+    runs-on: ubuntu-latest
+    environment: ${{ (github.ref_name == 'main' && github.event_name != 'pull_request') && 'production' || 'preview' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: site, path: dist }
+      - id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Creates the Pages project on first run (harmless if it already exists)
+          preCommands: npx wrangler pages project create ${{ env.PROJECT }} --production-branch=main || true
+          command: pages deploy dist --project-name=${{ env.PROJECT }} --branch=${{ github.head_ref || github.ref_name }}
+      - name: Summary
+        run: |
+          echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ steps.deploy.outputs.deployment-url }}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Comment preview link on the pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `Preview: ${{ steps.deploy.outputs.deployment-url }}\n\nMerge this pull request to publish it to the live site.`,
+            });

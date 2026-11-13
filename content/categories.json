@@ -1,0 +1,34 @@
+{
+  "categories": [
+    {
+      "name": "T-Shirts",
+      "slug": "t-shirts",
+      "description": "Soft, comfortable tees built to wear from the practice room to the podium."
+    },
+    {
+      "name": "Crewneck Sweatshirts",
+      "slug": "crewneck-sweatshirts",
+      "description": "Warm-up layers for the cold gym and the long drive home."
+    },
+    {
+      "name": "Singlets",
+      "slug": "singlets",
+      "description": "Competition-ready singlets."
+    },
+    {
+      "name": "Collabs",
+      "slug": "collabs",
+      "description": "Limited collaborations with athletes, clubs and creators."
+    },
+    {
+      "name": "Accessories",
+      "slug": "accessories",
+      "description": "Caps, socks and more."
+    },
+    {
+      "name": "Coaching Software",
+      "slug": "coaching-software",
+      "description": "Digital tools for coaches."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "Let's Wrassle Crewneck - Gray",
+  "category": "crewneck-sweatshirts",
+  "price": 32,
+  "description": "Show your love for the sport of wrestling with our first \"Let's Wrassle\" Crewneck Sweatshirt. This poly-cotton Sweatshirt provides comfortability along with a minimalistic style.\nWith the \"Let's Wrassle\" Logo sublimated across the chest, you can be assured that your shirt will fit the same as the day it was crafted!\n\nMaterial: 50% cotton / 50% polyester\nColor: Gray\nFit: True to Size / Athletic Fit\n\nSize chart\nSize: XS | S | M | L | XL | 2XL\nMen's/Unisex Chest: 31\"-34\" | 34\"-37\" | 38\"-41\" | 42\"-45\" | 46\"-49\" | 50\"-53\"\nMen's/Unisex Bottoms: 28\"-30\" | 30\"-32\" | 32\"-34\" | 34\"-36\" | 36\"-38\" | 38\"-40\"",
+  "images": [
+    "/uploads/products/5008736575.jpg",
+    "/uploads/products/5008624937.jpg"
+  ],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-07-07T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Gray",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Gray",
+      "price": 37,
+      "inStock": true
+    }
+  ]
+}

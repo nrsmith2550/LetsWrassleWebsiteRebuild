@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Let's Wrassle Product Editor</title>
+  </head>
+  <body>
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@3.3.3/dist/decap-cms.js"></script>
+    <script>
+      // The config is built in JS so the login redirect always uses whatever domain
+      // this page is on (production, a branch preview, or localhost).
+      const product = [
+        { label: 'Name', name: 'name', widget: 'string' },
+        { label: 'Category', name: 'category', widget: 'relation', collection: 'catalog', file: 'categories',
+          search_fields: ['categories.*.name'], value_field: 'categories.*.slug', display_fields: ['categories.*.name'] },
+        { label: 'Price (USD)', name: 'price', widget: 'number', value_type: 'float', min: 0, step: 0.5 },
+        { label: 'Description', name: 'description', widget: 'text', required: false },
+        { label: 'Photos (first one is the main photo)', name: 'images', widget: 'list', required: false, field: { label: 'Photo', name: 'photo', widget: 'image' } },
+        { label: 'Featured on home page', name: 'featured', widget: 'boolean', default: false },
+        { label: 'Show "New" badge', name: 'isNew', widget: 'boolean', default: false },
+        { label: 'Visible in store', name: 'active', widget: 'boolean', default: true },
+        { label: 'Shipping weight per item (oz, optional)', name: 'weightOz', widget: 'number', value_type: 'float', required: false, min: 0, hint: 'Leave empty to use the default from Store settings.' },
+        { label: 'Date added', name: 'date', widget: 'datetime', default: '' },
+        { label: 'Sizes / colors', name: 'variants', widget: 'list', summary: '{{fields.size}} {{fields.color}}', fields: [
+          { label: 'Size', name: 'size', widget: 'string', required: false, hint: 'e.g. S, M, L, XL, YM, One Size' },
+          { label: 'Color', name: 'color', widget: 'string', required: false },
+          { label: 'Price override (USD, optional)', name: 'price', widget: 'number', value_type: 'float', required: false },
+          { label: 'In stock', name: 'inStock', widget: 'boolean', default: true, hint: 'Turn off when this size/color sells out.' },
+        ] },
+      ];
+
+      CMS.init({
+        config: {
+          load_config_file: false,
+          backend: {
+            name: 'github',
+            repo: 'nrsmith2550/LetsWrassleWebsiteRebuild',
+            // While testing on the feature-branch preview, edit that branch. Everywhere else
+            // (the live site after merge) the CMS edits main.
+            branch: window.location.hostname.startsWith('feature-static-site.') ? 'feature/static-site' : 'main',
+            base_url: window.location.origin,
+            auth_endpoint: 'api/auth',
+          },
+          // Every save becomes a pull request with its own preview link. Merging publishes it.
+          publish_mode: 'editorial_workflow',
+          media_folder: 'web/public/uploads',
+          public_folder: '/uploads',
+          site_url: window.location.origin,
+          collections: [
+            { name: 'products', label: 'Products', label_singular: 'Product', folder: 'content/products', extension: 'json', format: 'json',
+              create: true, slug: '{{slug}}', identifier_field: 'name', summary: '{{name}}', fields: product },
+            { name: 'catalog', label: 'Categories, Videos & Settings', files: [
+              { name: 'categories', label: 'Categories (order = order in the shop tabs)', file: 'content/categories.json', fields: [
+                { label: 'Categories', name: 'categories', widget: 'list', summary: '{{fields.name}}', fields: [
+                  { label: 'Name', name: 'name', widget: 'string' },
+                  { label: 'URL slug', name: 'slug', widget: 'string', hint: 'lowercase-with-dashes. Products refer to this, so do not change it later.' },
+                  { label: 'Description', name: 'description', widget: 'text', required: false },
+                ] },
+              ] },
+              { name: 'videos', label: 'Interview videos', file: 'content/videos.json', fields: [
+                { label: 'Videos', name: 'videos', widget: 'list', summary: '{{fields.title}}', fields: [
+                  { label: 'Title', name: 'title', widget: 'string' },
+                  { label: 'Video URL (YouTube, Vimeo or .mp4)', name: 'url', widget: 'string' },
+                  { label: 'Featured athlete / guest', name: 'featuredName', widget: 'string', required: false },
+                  { label: 'Thumbnail (optional)', name: 'thumbnail', widget: 'image', required: false },
+                  { label: 'Description', name: 'description', widget: 'text', required: false },
+                  { label: 'Published', name: 'published', widget: 'boolean', default: true },
+                ] },
+              ] },
+              { name: 'settings', label: 'Store settings', file: 'content/settings.json', fields: [
+                { label: 'Announcement bar (leave empty to hide)', name: 'announcement', widget: 'string', required: false },
+                { label: 'Flat shipping rate (USD)', name: 'shippingFlat', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Free shipping over (USD, 0 = off)', name: 'freeShippingOver', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Sales tax rate (%)', name: 'taxRatePercent', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Local pickup notice', name: 'pickupNotice', widget: 'string' },
+                { label: 'Default weight per item (oz)', name: 'itemWeightOz', widget: 'number', value_type: 'float', min: 0, hint: 'Pre-fills the shipping label form.' },
+                { label: 'Default box length (in)', name: 'pkgLengthIn', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Default box width (in)', name: 'pkgWidthIn', widget: 'number', value_type: 'float', min: 0 },
+                { label: 'Default box height (in)', name: 'pkgHeightIn', widget: 'number', value_type: 'float', min: 0 },
+              ] },
+            ] },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>

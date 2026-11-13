@@ -1,0 +1,43 @@
+{
+  "name": "Let's Wrassle T-Shirt - Halloween Edition",
+  "category": "t-shirts",
+  "price": 25,
+  "description": "Show your love for the sport of wrestling and the Spooky Season with our Halloween inspired Premium T-shirt. This poly-cotton t-shirt provides comfortability along with a Holiday Inspiring Style.\nWith the \"Let's Wrassle\" Logo sublimated across the shirt's chest, you can be assured that your shirt will fit the same as the day it was crafted!\n\nMaterial: 52% cotton / 48% polyester\nColor: Orange\nFit: True to Size / Athletic Fit\n\nSize chart\nSize: XS | S | M | L | XL | 2XL\nMen's/Unisex Chest: 31\"-34\" | 34\"-37\" | 38\"-41\" | 42\"-45\" | 46\"-49\" | 50\"-53\"\nMen's/Unisex Bottoms: 28\"-30\" | 30\"-32\" | 32\"-34\" | 34\"-36\" | 36\"-38\" | 38\"-40\"",
+  "images": [
+    "/uploads/products/products-872193953-6332810269.jpg",
+    "/uploads/products/products-872193953-6332816775.jpg",
+    "/uploads/products/products-872193953-6332810283.jpg"
+  ],
+  "featured": true,
+  "active": false,
+  "isNew": false,
+  "date": "2025-11-16T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "S",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "M",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "L",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "XL",
+      "color": "Orange",
+      "inStock": true
+    },
+    {
+      "size": "2XL",
+      "color": "Orange",
+      "price": 30,
+      "inStock": true
+    }
+  ]
+}

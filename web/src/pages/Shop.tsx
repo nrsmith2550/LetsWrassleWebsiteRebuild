@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
-import { api, Category, Product } from '../lib/api';
+import { useMemo, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import ProductCard, { ProductCardSkeleton } from '../components/ProductCard';
+import { Script } from '../components/Title';
+import { useCatalog } from '../lib/catalog';
 
 const SORTS = [
   ['featured', 'Featured'],
@@ -12,55 +13,53 @@ const SORTS = [
 
 export default function Shop() {
   const { categorySlug } = useParams();
-  const nav = useNavigate();
-  const [cats, setCats] = useState<Category[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
+  const { catalog, error } = useCatalog();
   const [sort, setSort] = useState('featured');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api<{ categories: Category[] }>('/categories').then((r) => setCats(r.categories)).catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    const qs = new URLSearchParams({ sort });
-    if (categorySlug) qs.set('category', categorySlug);
-    api<{ products: Product[] }>(`/products?${qs}`)
-      .then((r) => setProducts(r.products))
-      .catch(() => setProducts([]))
-      .finally(() => setLoading(false));
-  }, [categorySlug, sort]);
+  const products = useMemo(() => {
+    const list = (catalog?.products ?? []).filter((p) => p.active && (!categorySlug || p.category === categorySlug));
+    const by: Record<string, (a: any, b: any) => number> = {
+      featured: (a, b) => Number(b.featured) - Number(a.featured),
+      newest: (a, b) => +new Date(b.date) - +new Date(a.date),
+      'price-asc': (a, b) => a.minPriceCents - b.minPriceCents,
+      'price-desc': (a, b) => b.minPriceCents - a.minPriceCents,
+    };
+    return [...list].sort(by[sort]);
+  }, [catalog, categorySlug, sort]);
 
   const tab = (active: boolean) =>
-    `whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold uppercase tracking-wider transition ${active ? 'bg-ink text-white' : 'bg-bone text-ink hover:bg-orange hover:text-white'}`;
+    `whitespace-nowrap rounded-sm border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.1em] transition ${active ? 'border-white bg-white text-black' : 'border-white/30 text-white/80 hover:border-white hover:text-white'}`;
+
+  const category = catalog?.categories.find((c) => c.slug === categorySlug);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="mb-6 text-4xl">{cats.find((c) => c.slug === categorySlug)?.name || 'Shop All'}</h1>
-      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
-          <Link to="/shop" className={tab(!categorySlug)}>All</Link>
-          {cats.map((c) => (
-            <Link key={c.id} to={`/shop/${c.slug}`} className={tab(categorySlug === c.slug)}>{c.name}</Link>
-          ))}
-        </div>
-        <select className="input md:w-56" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
-          {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-        </select>
+    <div className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
+      <div>
+        <h1 className="text-5xl md:text-7xl">{category ? category.name : <><Script>Shop</Script>All</>}</h1>
+        <p className="mt-4 max-w-xl text-lg text-white/70">{category?.description || "Every Let's Wrassle release in one place."}</p>
       </div>
-
-      {loading ? (
-        <p className="py-20 text-center text-gray-500">Loading…</p>
+      <div className="mb-10 mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1">
+          <Link to="/shop" className={tab(!categorySlug)}>All</Link>
+          {catalog?.categories
+            .filter((c) => catalog.products.some((p) => p.active && p.category === c.slug))
+            .map((c) => <Link key={c.slug} to={`/shop/${c.slug}`} className={tab(categorySlug === c.slug)}>{c.name}</Link>)}
+        </div>
+        <div className="flex items-center gap-3">
+          {catalog && <span className="whitespace-nowrap text-sm text-white/60">{products.length} {products.length === 1 ? 'product' : 'products'}</span>}
+          <select className="input !py-2.5 md:w-56" value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort">
+            {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+          </select>
+        </div>
+      </div>
+      {error ? (
+        <div className="py-20 text-center"><p className="text-red-400">{error}</p><p className="mt-2 text-sm text-white/60">Please refresh the page to try again.</p></div>
+      ) : !catalog ? (
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-14">{Array.from({ length: 6 }, (_, k) => <ProductCardSkeleton key={k} />)}</div>
       ) : products.length === 0 ? (
-        <div className="py-20 text-center text-gray-500">
-          <p>No products here yet.</p>
-          <button className="btn-outline btn-sm mt-4" onClick={() => nav('/shop')}>See everything</button>
-        </div>
+        <div className="py-20 text-center"><p className="text-white/60">No products here yet.</p><Link to="/shop" className="btn-light mt-5">View all products</Link></div>
       ) : (
-        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((p) => <ProductCard key={p.id} p={p} />)}
-        </div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-8 md:gap-y-14">{products.map((p) => <ProductCard key={p.slug} p={p} />)}</div>
       )}
     </div>
   );

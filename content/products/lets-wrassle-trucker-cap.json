@@ -1,0 +1,20 @@
+{
+  "name": "Let's Wrassle Trucker Cap",
+  "category": "accessories",
+  "price": 18,
+  "description": "Show your love for the sport of wrestling with our first \"Let's Wrassle\" Trucker Cap. Built with a classic mesh-back design, this cap blends comfort, breathability, and bold style.\nFeaturing a stitched \"Let's Wrassle\" patch on the front, this cap brings a rugged, authentic look that stays true to the sport. Whether you're at a match or on the move, it's the perfect way to represent your passion every day.",
+  "images": [
+    "/uploads/products/5073312576.jpg"
+  ],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-08-12T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "",
+      "color": "",
+      "inStock": false
+    }
+  ]
+}

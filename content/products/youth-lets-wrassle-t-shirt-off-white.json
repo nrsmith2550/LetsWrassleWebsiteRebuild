@@ -1,0 +1,37 @@
+{
+  "name": "YOUTH Let's Wrassle T-Shirt - Off White",
+  "category": "t-shirts",
+  "price": 22,
+  "description": "Now introducing Youth Let's Wrassle T-Shirts!\nShow your love for the sport of wrestling with our \"Let's Wrassle\" Premium T-Shirt. This poly-cotton t-shirt provides comfortability along with a minimalistic style.\nWith the \"Let's Wrassle\" Logo sublimated across the shirt's chest, you can be assured that your shirt will fit the same as the day it was crafted!\n\nMaterial: 52% cotton / 48% polyester\nColor: Off-White\nFit: True to Size / Athletic Fit\n\nYouth fit & size chart\nSize: YS | YM | YL | YXL\nYouth: 6-8 | 10-12 | 14-16 | 18-20",
+  "images": [
+    "/uploads/products/5047648390.jpg",
+    "/uploads/products/5047645194.jpg",
+    "/uploads/products/5047696836.jpg"
+  ],
+  "featured": true,
+  "active": true,
+  "isNew": false,
+  "date": "2025-07-31T00:00:00.000Z",
+  "variants": [
+    {
+      "size": "Youth Small",
+      "color": "Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth Medium",
+      "color": "Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth Large",
+      "color": "Off White",
+      "inStock": true
+    },
+    {
+      "size": "Youth XL",
+      "color": "Off White",
+      "inStock": true
+    }
+  ]
+}
