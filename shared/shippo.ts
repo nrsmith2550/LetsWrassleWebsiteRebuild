@@ -46,6 +46,7 @@ function fromAddress(env: Env) {
   }
   return {
     name: env.SHIP_FROM_NAME || "Let's Wrassle Apparel",
+    company: env.SHIP_FROM_COMPANY || '',
     street1: env.SHIP_FROM_STREET1,
     city: env.SHIP_FROM_CITY,
     state: env.SHIP_FROM_STATE || 'PA',
