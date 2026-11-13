@@ -4,7 +4,7 @@ import { useCart } from '../lib/cart';
 import ProductImage from './ProductImage';
 
 export default function CartDrawer() {
-  const { open, setOpen, lines, setQty, remove, subtotalCents } = useCart();
+  const { open, setOpen, lines, setQty, remove, subtotalCents, count } = useCart();
   const nav = useNavigate();
 
   return (
@@ -15,30 +15,31 @@ export default function CartDrawer() {
         aria-hidden={!open}
       >
         <div className="flex items-center justify-between border-b px-5 py-4">
-          <h2 className="text-xl">Your Cart</h2>
-          <button onClick={() => setOpen(false)} className="p-1 text-2xl leading-none" aria-label="Close cart">×</button>
+          <h2 className="text-xl">Your Cart{lines.length > 0 && <span className="ml-2 text-sm font-normal text-gray-500">{count} {count === 1 ? 'item' : 'items'}</span>}</h2>
+          <button onClick={() => setOpen(false)} className="-mr-2 flex h-10 w-10 items-center justify-center rounded-full text-2xl leading-none hover:bg-fog" aria-label="Close cart">×</button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {lines.length === 0 ? (
-            <div className="py-16 text-center text-gray-500">
-              <p>Your cart is empty.</p>
-              <Link to="/shop" onClick={() => setOpen(false)} className="btn-primary mt-4">Shop now</Link>
+            <div className="py-16 text-center text-gray-600">
+              <p className="text-lg font-semibold text-ink">Your cart is empty</p>
+              <p className="mt-1 text-sm">Find something to wear to the next practice.</p>
+              <Link to="/shop" onClick={() => setOpen(false)} className="btn-primary mt-6">Shop now</Link>
             </div>
           ) : (
             <ul className="divide-y">
               {lines.map((l) => (
                 <li key={l.variantId} className="flex gap-3 py-4">
-                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded bg-bone"><ProductImage src={l.image} alt={l.name} label={l.variantLabel} /></div>
+                  <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border border-gray-200 bg-white"><ProductImage src={l.image} alt={l.name} label={l.variantLabel} /></div>
                   <div className="flex-1 text-sm">
-                    <Link to={`/product/${l.slug}`} onClick={() => setOpen(false)} className="font-semibold hover:text-orange">{l.name}</Link>
+                    <Link to={`/product/${l.slug}`} onClick={() => setOpen(false)} className="font-semibold hover:underline">{l.name}</Link>
                     <div className="text-gray-500">{l.variantLabel}</div>
                     <div className="mt-2 flex items-center gap-3">
-                      <div className="flex items-center rounded border">
-                        <button className="px-2.5 py-1" onClick={() => setQty(l.variantId, l.quantity - 1)} aria-label="Decrease">−</button>
+                      <div className="flex items-center rounded-full border border-gray-300">
+                        <button className="rounded-full px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity - 1)} aria-label="Decrease">−</button>
                         <span className="w-6 text-center">{l.quantity}</span>
-                        <button className="px-2.5 py-1" onClick={() => setQty(l.variantId, l.quantity + 1)} aria-label="Increase">+</button>
+                        <button className="rounded-full px-3 py-1.5" onClick={() => setQty(l.variantId, l.quantity + 1)} aria-label="Increase">+</button>
                       </div>
-                      <button onClick={() => remove(l.variantId)} className="text-xs text-gray-500 underline hover:text-red-600">Remove</button>
+                      <button onClick={() => remove(l.variantId)} className="text-xs text-gray-600 underline hover:text-red-700">Remove</button>
                     </div>
                   </div>
                   <div className="text-sm font-bold">{money(l.unitPriceCents * l.quantity)}</div>
@@ -48,10 +49,11 @@ export default function CartDrawer() {
           )}
         </div>
         {lines.length > 0 && (
-          <div className="border-t px-5 py-4">
-            <div className="mb-1 flex justify-between font-bold"><span>Subtotal</span><span>{money(subtotalCents)}</span></div>
-            <p className="mb-3 text-xs text-gray-500">Shipping and tax calculated at checkout.</p>
-            <button className="btn-orange w-full" onClick={() => { setOpen(false); nav('/checkout'); }}>Checkout</button>
+          <div className="border-t bg-mist px-5 py-5">
+            <div className="mb-1 flex justify-between text-lg font-bold"><span>Subtotal</span><span>{money(subtotalCents)}</span></div>
+            <p className="mb-4 text-sm text-gray-600">Shipping and tax calculated at checkout.</p>
+            <button className="btn-primary w-full" onClick={() => { setOpen(false); nav('/checkout'); }}>Checkout</button>
+            <button className="mt-3 w-full text-center text-sm text-gray-600 underline hover:text-ink" onClick={() => setOpen(false)}>Continue shopping</button>
           </div>
         )}
       </aside>

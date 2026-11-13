@@ -12,6 +12,11 @@ export default {
         ink: '#1b1d20',
         orange: { DEFAULT: '#e8731f', dark: '#c85f12' },
         bone: '#f6f3ef',
+        // Storefront neutrals (matched to letswrassleapparel.com)
+        mist: '#f5f5f5',
+        fog: '#ececec',
+        slate: '#22282e',
+        flag: '#e5484d',
         // Admin hub palette (modeled on the IONOS store portal)
         ionos: {
           top: '#0f3b8c',
